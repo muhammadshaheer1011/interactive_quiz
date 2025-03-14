@@ -72,24 +72,45 @@ const questions = [
 ];
 
 
-
-
-
 let currentQuestionIndex = 0;
 let score = 0;
 let timer;
-let timeLeft = 30;  // 30 seconds per question
+let timeLeft = 30;
 
-// Load leaderboard from localStorage or default
-let leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [
-  { name: "Jonathan Porter", score: 6500, date: Date.now() },
-  { name: "Julia Bell", score: 6000, date: Date.now() },
-  { name: "Alexa Richter", score: 4500, date: Date.now() },
-  { name: "Amanda Hall", score: 4000, date: Date.now() },
-  { name: "Ellie Rosenfelder", score: 3500, date: Date.now() }
-];
+// 🛠 Load leaderboard from localStorage (without resetting every time)
+let leaderboardData;
+try {
+  leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
+} catch (e) {
+  leaderboardData = [];
+}
 
-// Initialize quiz
+// 🛠 Render leaderboard and add default entries only once
+function renderLeaderboard() {
+  const leaderboard = document.getElementById("leaderboard");
+  leaderboard.innerHTML = '';
+
+  // If empty for the first time, add default sample scores
+  if (leaderboardData.length === 0) {
+    leaderboardData = [
+      { name: "Jonathan Porter", score: 4500, date: Date.now() },
+      { name: "Julia Bell", score: 4300, date: Date.now() },
+      { name: "Alexa Richter", score: 4100, date: Date.now() },
+      { name: "Amanda Hall", score: 3600, date: Date.now() },
+      { name: "Ellie Rosenfelder", score: 3400, date: Date.now() }
+    ];
+    localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
+  }
+
+  leaderboardData.forEach(entry => {
+    const li = document.createElement("li");
+    li.classList.add("list-group-item", "d-flex", "justify-content-between");
+    li.innerHTML = `<span>${entry.name}</span><span>${entry.score} pts</span>`;
+    leaderboard.appendChild(li);
+  });
+}
+
+// 🎯 Start the Quiz
 document.getElementById("start-btn").onclick = startQuiz;
 document.getElementById("next-btn").onclick = () => {
   currentQuestionIndex++;
@@ -102,6 +123,7 @@ function startQuiz() {
   setNextQuestion();
 }
 
+// 🎯 Set the next question
 function setNextQuestion() {
   resetState();
   showQuestion(questions[currentQuestionIndex]);
@@ -121,11 +143,12 @@ function showQuestion(q) {
   });
 }
 
+// 🎯 Handle Answer Selection
 function selectAnswer(btn, selected, correct) {
   clearInterval(timer);
   if (selected === correct) {
     btn.classList.add("correct");
-    score += (100 + (timeLeft * 10)); // Points based on remaining time
+    score += 100 + timeLeft * 10; // Base 100 + bonus
   } else {
     btn.classList.add("wrong");
     document.querySelectorAll("#answer-buttons button")[correct].classList.add("correct");
@@ -141,14 +164,16 @@ function selectAnswer(btn, selected, correct) {
   }
 }
 
+// 🔁 Reset state for new question
 function resetState() {
   clearInterval(timer);
-  timeLeft = 30; // Reset timer for each question
+  timeLeft = 30;
   document.getElementById("timer").textContent = timeLeft;
   document.getElementById("next-btn").classList.add("d-none");
   document.getElementById("answer-buttons").innerHTML = '';
 }
 
+// ⏱ Timer per question
 function startTimer() {
   timeLeft = 30;
   document.getElementById("timer").textContent = timeLeft;
@@ -163,6 +188,7 @@ function startTimer() {
   }, 1000);
 }
 
+// 🏁 Show Results
 function showResults() {
   clearInterval(timer);
   document.getElementById("quiz-screen").classList.add("d-none");
@@ -172,38 +198,26 @@ function showResults() {
   updateLeaderboard();
 }
 
+// 🏆 Update Leaderboard
 function updateLeaderboard() {
   const userName = prompt("Congrats! Enter your name for the leaderboard:", "Anonymous") || "Anonymous";
-  
   leaderboardData.push({ name: userName, score: score, date: Date.now() });
 
-  // Keep only last week's data
-  const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  // Keep only last 7 days
+  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   leaderboardData = leaderboardData.filter(entry => entry.date >= oneWeekAgo);
 
-  // Sort leaderboard and keep top 5
+  // Sort by score, keep top 5
   leaderboardData.sort((a, b) => b.score - a.score);
   leaderboardData = leaderboardData.slice(0, 5);
 
+  // Save and render
   localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
-
   renderLeaderboard();
 }
 
-function renderLeaderboard() {
-  const leaderboard = document.getElementById("leaderboard");
-  leaderboard.innerHTML = '';
-
-  leaderboardData.forEach(entry => {
-    const li = document.createElement("li");
-    li.classList.add("list-group-item", "d-flex", "justify-content-between");
-    li.innerHTML = `<span>${entry.name}</span><span>${entry.score} pts</span>`;
-    leaderboard.appendChild(li);
-  });
-}
-
-// Render leaderboard on page load
-document.addEventListener('DOMContentLoaded', () => {
+// 🔁 On Page Load
+document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("leaderboard")) {
     renderLeaderboard();
   }
