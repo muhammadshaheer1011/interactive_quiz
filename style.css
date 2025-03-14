@@ -1,28 +1,38 @@
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  .card {
-    border-radius: 12px;
-  }
-  
-  .option {
-    cursor: pointer;
-  }
-  
-  .option:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .correct {
-    background-color: #d4edda;
-  }
-  
-  .incorrect {
-    background-color: #f8d7da;
-  }
-  
-  .btn {
-    width: 100%;
-  }
-  
+  background: url('bg.jpg') center center fixed;
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.quiz-card {
+  max-width: 700px;
+  margin: auto;
+  border-radius: 12px;
+}
+
+#answer-buttons button {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.correct {
+  background-color: #28a745 !important;
+  color: white;
+}
+
+.wrong {
+  background-color: #dc3545 !important;
+  color: white;
+}
+
+#timer {
+  font-size: 1rem;
+}
+
+#leaderboard li {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+}
