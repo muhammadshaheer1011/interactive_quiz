@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .card {
+    border-radius: 12px;
+  }
+  
+  .option {
+    cursor: pointer;
+  }
+  
+  .option:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .correct {
+    background-color: #d4edda;
+  }
+  
+  .incorrect {
+    background-color: #f8d7da;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
