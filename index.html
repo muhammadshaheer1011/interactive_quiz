@@ -13,7 +13,14 @@
     <div id="start-screen" class="card text-center shadow quiz-card">
         <div class="card-body">
             <h3 class="card-title">Can You Remember These Mnemonics? Quiz</h3>
-            <button id="start-btn" class="btn btn-primary btn-lg">Start</button>
+
+            <!-- Timer Bonus Toggle (only shown before the quiz starts) -->
+            <div id="timer-bonus-container" class="mt-3">
+                <label for="timer-bonus-toggle" class="form-label">Enable Timer Bonus</label>
+                <input type="checkbox" id="timer-bonus-toggle" class="form-check-input">
+            </div>
+
+            <button id="start-btn" class="btn btn-primary btn-lg mt-4">Start</button>
             <p class="mt-2">14 Questions | Timer Bonus ⏰</p>
         </div>
     </div>

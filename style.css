@@ -9,12 +9,22 @@ body {
   max-width: 700px;
   margin: auto;
   border-radius: 12px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
 }
 
 #answer-buttons button {
   width: 100%;
   text-align: left;
   margin-bottom: 12px;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#answer-buttons button:hover {
+  transform: scale(1.05);
 }
 
 .correct {
@@ -28,11 +38,111 @@ body {
 }
 
 #timer {
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-right: 20px;
 }
 
 #leaderboard li {
   text-align: left;
   display: flex;
   justify-content: space-between;
+  padding: 12px;
+  font-size: 1.1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+#leaderboard li:hover {
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+#timer-bonus-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#timer-bonus-toggle {
+  margin-left: 10px;
+  transform: scale(1.3);
+}
+
+#start-screen .card-body {
+  padding: 20px;
+}
+
+#start-btn {
+  margin-top: 30px;
+  padding: 15px 25px;
+  font-size: 1.25rem;
+  width: 100%;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+#start-btn:hover {
+  background-color: #0056b3;
+}
+
+.card-body h3 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.card-body p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+#quiz-screen .card-body {
+  padding: 30px;
+}
+
+#quiz-screen {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+#next-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px; /* Add margin to separate it from the answers */
+}
+
+#next-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+  .quiz-card {
+    padding: 15px;
+    width: 90%; /* Adjust card width for smaller screens */
+  }
+
+  #start-btn, #next-btn {
+    font-size: 1.1rem; /* Smaller buttons on mobile */
+  }
+
+  #answer-buttons button {
+    font-size: 0.9rem; /* Make answer buttons slightly smaller on mobile */
+  }
+
+  #timer {
+    font-size: 1.2rem; /* Slightly smaller timer on mobile */
+  }
 }

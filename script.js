@@ -75,8 +75,15 @@ let currentQuestionIndex = 0;
 let score = 0;
 let timer;
 let timeLeft = 30;
+let timerBonusEnabled = false;
 
-// 🛠 Load leaderboard from localStorage (without resetting every time)
+// 🛠 Load Timer Bonus preference from localStorage
+const timerBonusPreference = localStorage.getItem('timerBonusPreference');
+if (timerBonusPreference !== null) {
+  timerBonusEnabled = JSON.parse(timerBonusPreference);
+}
+
+// 🛠 Render leaderboard from localStorage
 let leaderboardData;
 try {
   leaderboardData = JSON.parse(localStorage.getItem('leaderboardData')) || [];
@@ -111,12 +118,17 @@ function renderLeaderboard() {
 
 // 🎯 Start the Quiz
 document.getElementById("start-btn").onclick = startQuiz;
+
 document.getElementById("next-btn").onclick = () => {
   currentQuestionIndex++;
   setNextQuestion();
 };
 
 function startQuiz() {
+  // Save Timer Bonus Preference to localStorage
+  timerBonusEnabled = document.getElementById("timer-bonus-toggle").checked;
+  localStorage.setItem('timerBonusPreference', JSON.stringify(timerBonusEnabled));
+
   document.getElementById("start-screen").classList.add("d-none");
   document.getElementById("quiz-screen").classList.remove("d-none");
   setNextQuestion();
@@ -124,6 +136,11 @@ function startQuiz() {
 
 // 🎯 Set the next question
 function setNextQuestion() {
+  if (currentQuestionIndex >= questions.length) {
+    showResults();
+    return;
+  }
+
   resetState();
   showQuestion(questions[currentQuestionIndex]);
   startTimer();
