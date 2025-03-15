@@ -71,7 +71,6 @@ const questions = [
   }
 ];
 
-
 let currentQuestionIndex = 0;
 let score = 0;
 let timer;
@@ -85,22 +84,22 @@ try {
   leaderboardData = [];
 }
 
-// 🛠 Render leaderboard and add default entries only once
+// 🛠 If leaderboardData is empty, use default values
+if (leaderboardData.length === 0) {
+  leaderboardData = [
+    { name: "Jonathan Porter", score: 6500, date: Date.now() },
+    { name: "Julia Betz", score: 6000, date: Date.now() },
+    { name: "Alexa Richter", score: 4500, date: Date.now() },
+    { name: "AnnieM", score: 4500, date: Date.now() },
+    { name: "Elias Rosenfelder", score: 3460, date: Date.now() }
+  ];
+  localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
+}
+
+// 🛠 Render leaderboard
 function renderLeaderboard() {
   const leaderboard = document.getElementById("leaderboard");
   leaderboard.innerHTML = '';
-
-  // If empty for the first time, add default sample scores
-  if (leaderboardData.length === 0) {
-    leaderboardData = [
-      { name: "Jonathan Porter", score: 4500, date: Date.now() },
-      { name: "Julia Bell", score: 4300, date: Date.now() },
-      { name: "Alexa Richter", score: 4100, date: Date.now() },
-      { name: "Amanda Hall", score: 3600, date: Date.now() },
-      { name: "Ellie Rosenfelder", score: 3400, date: Date.now() }
-    ];
-    localStorage.setItem('leaderboardData', JSON.stringify(leaderboardData));
-  }
 
   leaderboardData.forEach(entry => {
     const li = document.createElement("li");
@@ -148,7 +147,7 @@ function selectAnswer(btn, selected, correct) {
   clearInterval(timer);
   if (selected === correct) {
     btn.classList.add("correct");
-    score += 100 + timeLeft * 10; // Base 100 + bonus
+    score += 200 + timeLeft * 10; // Base 200 + bonus
   } else {
     btn.classList.add("wrong");
     document.querySelectorAll("#answer-buttons button")[correct].classList.add("correct");
